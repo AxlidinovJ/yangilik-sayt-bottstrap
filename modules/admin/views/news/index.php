@@ -11,6 +11,15 @@ use yii\grid\GridView;
 
 $this->title = 'News';
 $this->params['breadcrumbs'][] = $this->title;
+
+function ImgagesFind($datas){
+    $explode = explode('<img src="',$datas);
+    $explode2 = explode('" />',$explode[1]);
+    $images = $explode2[0];
+    return $images;
+}
+
+
 ?>
 <div class="news-index">
 
@@ -42,12 +51,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'img',
                 'format'=>'html',
                 'value'=>function($data){
-                    return html::img("@web/newsimg/".$data->img,['width'=>'200px']);
+                    if(empty($data->img)){
+                        $rasm = ImgagesFind($data->content);
+                    }else{
+                        $rasm = "@web/newsimg/".$data->img;
+                    }
+                    return html::img($rasm,['width'=>'200px']);
                 }
             ],
             // 'content:ntext',
             [
                 'attribute'=>"content",
+                // 'format'=>'html',
                 'value'=>function($data){
                     return substr($data->content,0,100);
                 }
@@ -57,9 +72,6 @@ $this->params['breadcrumbs'][] = $this->title;
             //'status',
             [
                 'class' => ActionColumn::className(),
-                // 'urlCreator' => function ($action, News $model, $key, $index, $column) {
-                //     return Url::toRoute([$action, 'id' => $model->id]);
-                //  }
             ],
         ],
     ]); ?>

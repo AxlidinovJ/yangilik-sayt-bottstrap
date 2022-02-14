@@ -33,7 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'catagory_id',
             'title',
             'img',
-            'content:ntext',
+            // 'content:ntext',
+            [
+                'attribute'=>'content',
+                'format'=>'html',
+                'value'=>function($data){
+                    return str_replace("\n","<br>",str_replace("<img src=","<img class='card-img-top' src=",$data->content));
+                }
+            ],
             'author',
             'time',
             'status',

@@ -25,5 +25,9 @@ class NewsAsset extends AssetBundle
     public $js = [
         'js/bootstrap.min.js',
     ];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap4\BootstrapAsset',
+    ];
 
 }

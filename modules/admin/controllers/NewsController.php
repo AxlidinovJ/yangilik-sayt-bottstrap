@@ -25,7 +25,7 @@ class NewsController extends Controller
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
-                        'delete' => ['POST'],
+                        'delete' => ['POST','GET'],
                     ],
                 ],
             ]
@@ -74,10 +74,12 @@ class NewsController extends Controller
             if ($model->load($this->request->post())) {
                 $model->time = date('Y-m-d H:i:s');
                 $rasm  = UploadedFile::getInstance($model,'img');
-                $random = new Security();
-                $name = $random->generateRandomString(10).".".$rasm->extension;
-                $rasm->saveAs("newsimg/".$name);
-                $model->img = $name;
+                if(isset($rasm)){              
+                    $random = new Security();
+                    $name = $random->generateRandomString(10).".".$rasm->extension;
+                    $rasm->saveAs("newsimg/".$name);
+                    $model->img = $name;
+                }
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -128,7 +130,6 @@ class NewsController extends Controller
      */
     public function actionDelete($id)
     {
-
         $model = $this->findModel($id);
         unlink("./newsimg/".$model->img);
         $model->delete();

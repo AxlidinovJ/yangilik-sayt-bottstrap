@@ -21,12 +21,7 @@ NewsAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yangilik.uz</title>
     <?php $this->head() ?>
-    <?php
-        if($_GET['id']){
-            $d = 3;
-        }
-    ?>
-
+    
 </head>
 
 <body>

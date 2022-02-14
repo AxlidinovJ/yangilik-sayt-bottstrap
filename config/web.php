@@ -4,6 +4,7 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
+    'language'=>'uz',
     'id' => 'basic',
     'defaultRoute'=>"news/index",
     'basePath' => dirname(__DIR__),
