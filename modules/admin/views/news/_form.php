@@ -37,7 +37,7 @@ $category = ArrayHelper::map($cat,'id','catagory_name');
     ]
 ]);?>
 
-    <?= $form->field($model, 'status')->dropDownList(['1'=>"Yoqish",'2'=>"O'chirish"]) ?>
+    <?= $form->field($model, 'status')->dropDownList(['1'=>"Yoqish",'0'=>"O'chirish"]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

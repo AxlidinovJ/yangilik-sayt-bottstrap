@@ -80,6 +80,7 @@ class NewsController extends Controller
                     $rasm->saveAs("newsimg/".$name);
                     $model->img = $name;
                 }
+                $model->author = \Yii::$app->user->identity->username;
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -102,11 +103,11 @@ class NewsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $name = $model->img;
         if ($this->request->isPost && $model->load($this->request->post()) ) {
-                $name = $model->img;
                 $rasm  = UploadedFile::getInstance($model,'img');  
-                if(isset($rasm)){              
+                if(!empty($rasm)){   
+                    unlink("newsimg/".$name);      
                     $random = new Security();
                     $name = $random->generateRandomString(10).".".$rasm->extension;
                     $rasm->saveAs("newsimg/".$name);
@@ -121,17 +122,13 @@ class NewsController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing News model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
+
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        unlink("./newsimg/".$model->img);
+        if(file_exists("./newsimg/".$model->img?$model->img:"")){
+            unlink("./newsimg/".$model->img?$model->img:"");
+        }
         $model->delete();
         return $this->redirect(['index']);
     }
@@ -151,4 +148,19 @@ class NewsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionStatus($id){
+        $model = $this->findModel($id);
+        $model->status = $model->status?"0":"1";
+        $model->save();
+        return $this->redirect(\Yii::$app->request->referrer);
+    }
+
+    public function actionChiqish()
+    {
+        \Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
+
 }

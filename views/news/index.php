@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Url;
 include __DIR__."/func.php";
-
+use yii\widgets\LinkPager;
 ?>
 <div class="row row-cols-1 row-cols-md-3 g-4">
    <?php foreach($news as $new):?> 
@@ -12,7 +12,7 @@ include __DIR__."/func.php";
                 if(!empty($new->img)){
                     $rasm  = "@web/newsimg/".$new->img;
                 }else{
-                    $rasm = ImgagesFind($new->content);
+                    $rasm = ImgagesFind($new->content)?:"@web/newsimg/no-img.jpg";
                 }
 
             ?>
@@ -24,5 +24,18 @@ include __DIR__."/func.php";
             </div>
         </div>
     </div>
-    <?php endforeach;?>
+    <?php endforeach;
+    echo LinkPager::widget([
+        'pagination'=>$pagination,
+    //     'pageCssClass'=>'btn btn-info',
+    //     'activePageCssClass'=>'btn btn-danger',
+    //     'prevPageCssClass'=>'btn btn-info',
+    //     'nextPageCssClass'=>'btn btn-info',
+    //     // 'linkOptions'=>[
+    //     //     'class'=>'btn btn-info',
+        // ],
+    ]);
+    
+    ?>
+    
  </div>

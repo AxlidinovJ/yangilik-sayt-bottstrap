@@ -20,7 +20,8 @@ class NewsAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/bootstrap.min.css',        
+        'css/bootstrap.min.css',      
+        "font/bootstrap-icons.css",  
     ];
     public $js = [
         'js/bootstrap.min.js',

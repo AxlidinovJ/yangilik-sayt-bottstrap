@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="news-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::a(($this->title),['../news/view','id'=>$model->id],['target'=>"_blank"]); ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'content',
                 'format'=>'html',
                 'value'=>function($data){
-                    return str_replace("\n","<br>",str_replace("<img src=","<img class='card-img-top' src=",$data->content));
+                    return str_replace("\n","",str_replace("<img src=","<img class='card-img-top' src=",$data->content));
                 }
             ],
             'author',

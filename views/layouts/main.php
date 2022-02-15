@@ -21,7 +21,7 @@ NewsAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yangilik.uz</title>
     <?php $this->head() ?>
-    
+
 </head>
 
 <body>
@@ -37,13 +37,24 @@ NewsAsset::register($this);
                 <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                     <?php foreach($category as $cat):?>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="<?=url::to(['news/category','id'=>$cat->id])?>"><?=$cat->catagory_name?></a>
+                        <a class="nav-link " aria-current="page"
+                            href="<?=url::to(["news/category",'id'=>$cat->id])?>"><?=$cat->catagory_name?></a>
                     </li>
-                    <?php endforeach;?>
+                    <?php endforeach;
+                    $isGuest = Yii::$app->user->isGuest;
+                    if($isGuest){
+                    ?>
+                    <a class="nav-link " aria-current="page" href="<?=url::to("@web/admin")?>">Kirish</a>
+                    <?php }else{
+                        $username = Yii::$app->user->identity->username;
+                        ?>
+                    <a class="nav-link " aria-current="page" href="<?=url::to("@web/admin")?>">Admin</a>
+                    <a class="nav-link " aria-current="page" href="<?=url::to("@web/admin/news/chiqish")?>">Chiqish [<?=$username?>]</a>
+                        <?php }?>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                <form class="d-flex" action="<?=url::to('@web/news/search')?>">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                    <button class="btn btn-outline-success"  type="submit">Search</button>
                 </form>
             </div>
         </div>
@@ -56,19 +67,18 @@ NewsAsset::register($this);
     </div>
 
 
-        </div>
+    </div>
     </div>
 
 
-    <div class="card-footer text-muted sticky-bottom">
-        <div class="container">
-            <p class="float-left">
-                <p class="float-left">&copy; My Company 2022</p>
-
+    <div class="m-4 ">
+        <div class="container ">
+            <p class="float-left ">&copy; My Company 2022</p>
         </div>
     </div>
 
-<?php $this->endBody() ?>
+    <?php $this->endBody() ?>
 </body>
+
 </html>
 <?php $this->endPage() ?>

@@ -30,9 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'date',
             [
                 'class' => ActionColumn::className(),
-                // 'urlCreator' => function ($action, Category $model, $key, $index, $column) {
-                //     return Url::toRoute([$action, 'id' => $model->id]);
-                //  }
+                'template'=>"{view} {delete} {update}",
+                'buttons'=>[
+                    'delete'=>function($url,$data){
+                        return html::a("<i class='bi-person-x'bi-></i>",["category/delete",'id'=>$data->id]);
+                    }
+                ],
             ],
         ],
     ]); ?>

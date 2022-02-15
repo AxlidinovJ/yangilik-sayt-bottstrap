@@ -14,9 +14,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 function ImgagesFind($datas){
     $explode = explode('<img src="',$datas);
-    $explode2 = explode('" />',$explode[1]);
-    $images = $explode2[0];
-    return $images;
+    if(isset($explode[1])){
+        $explode2 = explode('" />',$explode[1]);
+        $images = $explode2[0];
+        return $images;
+    }else{
+        return false;
+    }
 }
 
 
@@ -52,7 +56,7 @@ function ImgagesFind($datas){
                 'format'=>'html',
                 'value'=>function($data){
                     if(empty($data->img)){
-                        $rasm = ImgagesFind($data->content);
+                        $rasm = ImgagesFind($data->content)?:"@web/newsimg/no-img.jpg";
                     }else{
                         $rasm = "@web/newsimg/".$data->img;
                     }
@@ -60,20 +64,35 @@ function ImgagesFind($datas){
                 }
             ],
             // 'content:ntext',
-            [
-                'attribute'=>"content",
-                // 'format'=>'html',
-                'value'=>function($data){
-                    return substr($data->content,0,100);
-                }
-            ],
+            // [
+            //     'attribute'=>"content",
+            //     // 'format'=>'html',
+            //     'value'=>function($data){
+            //          $malumot = substr($data->content,0,100);
+            //          return $malumot;
+            //     }
+            // ],
             //'author',
             //'time',
-            //'status',
+            // 'status',
+            [
+                'attribute'=>'status',
+                'format'=>'html',
+                'value'=>function($data){
+                    return html::a($data->status?"<span class='text-success'>True</span>":"<span class='text-danger'>False</span>",['news/status','id'=>$data->id]);
+                }
+            ],
             [
                 'class' => ActionColumn::className(),
+                'template'=>"{view} {delete} {update}",
+                'buttons'=>[
+                    'delete'=>function($url,$data){
+                        return html::a("<i class='bi-person-x'bi-></i>",["news/delete",'id'=>$data->id]);
+                    }
+                ],
             ],
         ],
+        
     ]); ?>
 
 
