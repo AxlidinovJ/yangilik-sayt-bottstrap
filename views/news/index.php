@@ -27,13 +27,6 @@ use yii\widgets\LinkPager;
     <?php endforeach;
     echo LinkPager::widget([
         'pagination'=>$pagination,
-    //     'pageCssClass'=>'btn btn-info',
-    //     'activePageCssClass'=>'btn btn-danger',
-    //     'prevPageCssClass'=>'btn btn-info',
-    //     'nextPageCssClass'=>'btn btn-info',
-    //     // 'linkOptions'=>[
-    //     //     'class'=>'btn btn-info',
-        // ],
     ]);
     
     ?>
